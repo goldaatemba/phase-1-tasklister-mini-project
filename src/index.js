@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("create-task-form");
     const taskList = document.getElementById("tasks");
@@ -86,23 +85,4 @@ document.addEventListener("DOMContentLoaded", () => {
         taskList.innerHTML = "";
         tasksArray.forEach(task => taskList.appendChild(task));
     });
-=======
-form.addEventListener('submit', (e) => {
-  try {
-    e.preventDefault();
-    const name = input.value.trim(); // Trim to avoid whitespace issues
-    if (!name) return; // Prevent adding empty tasks
-
-    let val = priority.value === 'low' ? 1 : priority.value === 'medium' ? 2 : 3;
-    const task = new Task(name, priority.value, val);
-
-    tasksArray.unshift(task);
-    localStorage.setItem('tasks', JSON.stringify(tasksArray)); // Save to local storage
-    updateDOMTasks(); // Update the UI
-
-    input.value = ''; // Clear input after submission
-  } catch (error) {
-    console.error(error);
-  }
->>>>>>> 1804e15bbe564f8ccf4335eac70405ad1423a751
 });

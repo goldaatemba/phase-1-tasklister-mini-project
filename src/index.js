@@ -1,20 +1,26 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // your code here
-  document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("create-task-form");
     const taskList = document.getElementById("tasks");
-    const sortButton = document.createElement("button");
-    sortButton.textContent = "Sort by Priority";
-    document.body.insertBefore(sortButton, taskList);
-    
+    const sortButton = document.getElementById("sort-button"); // Use existing button
+
+    if (!form || !taskList || !sortButton) {
+        console.error("Required elements not found.");
+        return;
+    }
+
     form.addEventListener("submit", function (event) {
-        event.preventDefault();
+        event.preventDefault(); // Prevent page refresh
 
         const taskInput = document.getElementById("new-task-description");
         const userInput = document.getElementById("task-user");
         const dueDateInput = document.getElementById("task-due-date");
         const priorityInput = document.getElementById("task-priority");
-        
+
+        if (!taskInput || !userInput || !dueDateInput || !priorityInput) {
+            console.error("One or more input fields are missing.");
+            return;
+        }
+
         const taskText = taskInput.value.trim();
         const userText = userInput.value.trim();
         const dueDateText = dueDateInput.value;
@@ -24,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const taskItem = document.createElement("li");
             taskItem.textContent = `${taskText} (Assigned to: ${userText}, Due: ${dueDateText})`;
             taskItem.dataset.priority = priorityValue;
-            
+
             switch (priorityValue) {
                 case "high":
                     taskItem.style.color = "red";
@@ -36,14 +42,14 @@ document.addEventListener("DOMContentLoaded", () => {
                     taskItem.style.color = "green";
                     break;
             }
-            
+
+            // Delete button
             const deleteButton = document.createElement("button");
             deleteButton.textContent = "X";
             deleteButton.style.marginLeft = "10px";
-            deleteButton.addEventListener("click", () => {
-                taskItem.remove();
-            });
-            
+            deleteButton.addEventListener("click", () => taskItem.remove());
+
+            // Edit button
             const editButton = document.createElement("button");
             editButton.textContent = "✏️";
             editButton.style.marginLeft = "10px";
@@ -55,17 +61,21 @@ document.addEventListener("DOMContentLoaded", () => {
                     taskItem.appendChild(deleteButton);
                 }
             });
-            
+
             taskItem.appendChild(editButton);
             taskItem.appendChild(deleteButton);
             taskList.appendChild(taskItem);
-            
+
+            // Clear input fields
             taskInput.value = "";
             userInput.value = "";
             dueDateInput.value = "";
+        } else {
+            alert("Task description cannot be empty!");
         }
     });
-    
+
+    // Sorting functionality
     sortButton.addEventListener("click", () => {
         const tasksArray = Array.from(taskList.children);
         tasksArray.sort((a, b) => {
@@ -75,6 +85,4 @@ document.addEventListener("DOMContentLoaded", () => {
         taskList.innerHTML = "";
         tasksArray.forEach(task => taskList.appendChild(task));
     });
-});
-
 });
